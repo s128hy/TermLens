@@ -2,7 +2,7 @@
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  Title="术语镜 · TermLens" Icon="app.ico" Style="{StaticResource {x:Type Window}}" Width="560" Height="700" MinWidth="480" MinHeight="540" WindowStartupLocation="CenterScreen">
- <Grid x:Name="Root" Margin="20">
+ <Grid Margin="20">
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
   <Grid Margin="0,0,0,12">
    <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
@@ -82,21 +82,6 @@
        </StackPanel>
       </Border>
       <TextBlock Text="点击查询后，才会向此服务发送所选词语。不会自动发送整页、文件或剪贴板内容。测试连接会发送示例词「随机森林」，可能产生少量费用。" Foreground="{StaticResource Muted}" FontSize="12" Margin="2,16,0,0" LineHeight="22"/>
-      <TextBlock Text="显示" FontSize="23" FontWeight="SemiBold" Margin="0,28,0,8"/>
-      <TextBlock Text="调整文字大小，立即生效并自动保存。" Foreground="{StaticResource Muted}" Margin="0,0,0,20"/>
-      <Border Background="White" CornerRadius="3" Padding="20" BorderBrush="{StaticResource Line}" BorderThickness="1">
-       <StackPanel>
-        <DockPanel Margin="0,0,0,8">
-         <TextBlock x:Name="FontScaleLabel" DockPanel.Dock="Right" Foreground="{StaticResource Accent}" FontWeight="SemiBold" Text="100%"/>
-         <TextBlock Text="字体大小" FontWeight="SemiBold"/>
-        </DockPanel>
-        <Slider x:Name="FontScaleSlider" Minimum="0.8" Maximum="2" TickFrequency="0.1" IsSnapToTickEnabled="True" SmallChange="0.1" LargeChange="0.2" Value="1" ValueChanged="FontScale_Changed" AutomationProperties.AutomationId="FontScaleSlider" ToolTip="80% – 200%"/>
-        <CheckBox x:Name="FollowWindowCheck" Content="随窗口大小自动缩放" Margin="0,14,0,0" Checked="FollowWindow_Changed" Unchecked="FollowWindow_Changed" AutomationProperties.AutomationId="FollowWindowCheck"/>
-        <TextBlock Text="开启后，拖大主窗口或解释卡片时文字同步放大；拖动卡片右下角可调整卡片大小。" FontSize="12" Foreground="{StaticResource Muted}" Margin="0,6,0,14"/>
-        <Button Content="恢复默认" HorizontalAlignment="Left" Click="ResetDisplay_Click"/>
-        <TextBlock x:Name="DisplayStatus" Margin="0,10,0,0" FontSize="12" Foreground="{StaticResource Accent}"/>
-       </StackPanel>
-      </Border>
      </StackPanel>
     </ScrollViewer>
    </TabItem>

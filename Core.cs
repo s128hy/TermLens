@@ -89,39 +89,6 @@ public static class SettingsStore
     }
 }
 
-public sealed record DisplaySettings(double FontScale = 1.0, bool FollowWindow = true)
-{
-    public const double MinScale = 0.8;
-    public const double MaxScale = 2.0;
-    public DisplaySettings Normalize() => this with { FontScale = double.IsFinite(FontScale) ? Math.Clamp(Math.Round(FontScale, 2), MinScale, MaxScale) : 1.0 };
-    // Text follows the chosen size; when following the window it also grows or shrinks with the window relative to its reference size.
-    public double ScaleFor(double width, double height, double referenceWidth, double referenceHeight)
-    {
-        var scale = Normalize().FontScale;
-        if (!FollowWindow || !(width > 0 && height > 0 && referenceWidth > 0 && referenceHeight > 0)) return scale;
-        return scale * Math.Clamp(Math.Min(width / referenceWidth, height / referenceHeight), 0.75, 2.5);
-    }
-}
-
-// Display preferences live apart from the API settings so they save without a valid key.
-public static class DisplayStore
-{
-    public static readonly string FilePath = Path.Combine(SettingsStore.DirectoryPath, "display.json");
-    public static DisplaySettings Load(string? path = null)
-    {
-        try { return (JsonSerializer.Deserialize<DisplaySettings>(File.ReadAllText(path ?? FilePath)) ?? new()).Normalize(); }
-        catch { return new(); }
-    }
-    public static void Save(DisplaySettings settings, string? path = null)
-    {
-        path ??= FilePath;
-        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-        var temporary = path + ".tmp";
-        File.WriteAllText(temporary, JsonSerializer.Serialize(settings.Normalize(), new JsonSerializerOptions { WriteIndented = true }));
-        File.Move(temporary, path, true);
-    }
-}
-
 public static class SecretProtection
 {
     [StructLayout(LayoutKind.Sequential)] private struct Blob { public int Size; public IntPtr Data; }

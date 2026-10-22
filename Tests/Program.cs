@@ -73,28 +73,6 @@ internal static partial class Program
         Test("解析：非结构化回答保留原文", () => Equal(ExplanationClient.Parse("通俗的原文解释", "RF").Plain, "通俗的原文解释"));
         Test("解析：空回答被拒绝", () => Throws<UserError>(() => ExplanationClient.Parse(" ", "RF")));
         Test("密钥：Windows 加密往返且非明文", () => { var encrypted = SecretProtection.Protect("local-test-secret-测试"); Assert(!encrypted.Contains("local-test-secret")); Equal(SecretProtection.Unprotect(encrypted), "local-test-secret-测试"); });
-        Test("显示：字号限制在 80%–200%", () => { Equal(new DisplaySettings(5).Normalize().FontScale, 2.0); Equal(new DisplaySettings(0.1).Normalize().FontScale, 0.8); Equal(new DisplaySettings(double.NaN).Normalize().FontScale, 1.0); });
-        Test("显示：随窗口按较小边比例缩放", () =>
-        {
-            Equal(new DisplaySettings(1.2, false).ScaleFor(1120, 1400, 560, 700), 1.2);
-            Equal(new DisplaySettings(1.0).ScaleFor(1120, 1400, 560, 700), 2.0);
-            Equal(new DisplaySettings(1.0).ScaleFor(1120, 700, 560, 700), 1.0);
-            Equal(new DisplaySettings(1.0).ScaleFor(280, 350, 560, 700), 0.75);
-            Equal(new DisplaySettings(1.5).ScaleFor(0, 0, 560, 700), 1.5);
-        });
-        Test("显示：保存往返，损坏文件回退默认值", () =>
-        {
-            var path = Path.Combine(Path.GetTempPath(), "TermLens-display-" + Guid.NewGuid().ToString("N") + ".json");
-            try
-            {
-                DisplayStore.Save(new DisplaySettings(1.3, false), path);
-                Equal(DisplayStore.Load(path), new DisplaySettings(1.3, false));
-                File.WriteAllText(path, "{broken");
-                Equal(DisplayStore.Load(path), new DisplaySettings());
-                Equal(DisplayStore.Load(path + ".missing"), new DisplaySettings());
-            }
-            finally { File.Delete(path); }
-        });
         HistoryTests();
         ApiTests().GetAwaiter().GetResult();
         UpgradeApiTests().GetAwaiter().GetResult();
@@ -203,7 +181,6 @@ internal static partial class Program
         });
         Test("界面：失焦不关闭、不取消查询，手动关闭仍有效", () => UiPersistent(app, popup, uiHandler));
         Test("界面：历史筛选、离线回看和清空", () => UiHistory(app, main, uiHandler));
-        Test("界面：字体大小即时生效，卡片随字号与窗口缩放", () => UiDisplay(app, main, popup));
         SynchronizationContext.SetSynchronizationContext(null);
     }
     private static void RenderContent(Window window, int width, int height, string path)

@@ -17,14 +17,10 @@ public partial class LookupWindow : Window
     private readonly Stopwatch elapsed = new();
     private readonly DispatcherTimer waitingTimer = new() { Interval = TimeSpan.FromSeconds(1) };
     private bool receivedText;
-    private const double BaseWidth = 430, BaseHeight = 640;
-    private double sizedFor = 1.0;
     public LookupWindow(App app)
     {
         this.app = app;
         InitializeComponent();
-        ApplyDisplay();
-        SizeChanged += (_, _) => ApplyDisplay();
         waitingTimer.Tick += (_, _) => LoadingText.Text = $"{(receivedText ? "正在生成解释" : "正在等待服务响应")}… 已等待 {(int)elapsed.Elapsed.TotalSeconds} 秒";
         Closing += (_, e) =>
         {
@@ -93,18 +89,6 @@ public partial class LookupWindow : Window
             }
             cancellation.Dispose();
         }
-    }
-    public void ApplyDisplay()
-    {
-        var display = app.Display;
-        // The card keeps its designed layout at any font size by growing with it; a size the user drags to is kept until the font size changes.
-        if (display.FontScale != sizedFor)
-        {
-            Width = BaseWidth * display.FontScale;
-            Height = BaseHeight * display.FontScale;
-            sizedFor = display.FontScale;
-        }
-        DisplayScale.Apply(Root, display.ScaleFor(ActualWidth, ActualHeight, BaseWidth * display.FontScale, BaseHeight * display.FontScale));
     }
     internal void Render(Explanation result)
     {

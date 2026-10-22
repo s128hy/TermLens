@@ -12,14 +12,10 @@ public partial class MainWindow : Window
 {
     private readonly App app;
     private CancellationTokenSource? testing;
-    private bool showingDisplay;
-    private const double ReferenceWidth = 560, ReferenceHeight = 700;
     public MainWindow(App app)
     {
         this.app = app;
         InitializeComponent();
-        ApplyDisplay();
-        SizeChanged += (_, _) => ApplyDisplay();
         UrlInput.Text = app.Settings.BaseUrl;
         KeyInput.Password = app.Settings.ApiKey;
         ModelInput.Text = app.Settings.Model;
@@ -50,27 +46,6 @@ public partial class MainWindow : Window
         HistoryStatus.Text = app.History.Warning;
         ClearHistoryButton.IsEnabled = app.History.Entries.Count > 0 || app.History.Warning.Length > 0;
     }
-    public void ApplyDisplay()
-    {
-        var display = app.Display;
-        showingDisplay = true;
-        FontScaleSlider.Value = display.FontScale;
-        FollowWindowCheck.IsChecked = display.FollowWindow;
-        showingDisplay = false;
-        FontScaleLabel.Text = $"{display.FontScale * 100:0}%";
-        DisplayScale.Apply(Root, display.ScaleFor(ActualWidth, ActualHeight, ReferenceWidth, ReferenceHeight));
-    }
-    private void UpdateDisplay(DisplaySettings display)
-    {
-        if (showingDisplay || !IsInitialized) return;
-        try { app.SetDisplay(display); DisplayStatus.Text = ""; }
-        catch { DisplayStatus.Text = "显示设置已应用，但无法保存，请检查本机用户目录的写入权限。"; }
-    }
-    private void FontScale_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
-        => UpdateDisplay(app.Display with { FontScale = e.NewValue });
-    private void FollowWindow_Changed(object sender, RoutedEventArgs e)
-        => UpdateDisplay(app.Display with { FollowWindow = FollowWindowCheck.IsChecked == true });
-    private void ResetDisplay_Click(object sender, RoutedEventArgs e) => UpdateDisplay(new DisplaySettings());
     private void HistoryFilter_Changed(object sender, TextChangedEventArgs e) => RefreshHistory();
     private void HistoryOpen_Click(object sender, RoutedEventArgs e)
     {

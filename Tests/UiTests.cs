@@ -138,22 +138,4 @@ internal static partial class Program
         clear.Invoke(main, new object[] { main, new RoutedEventArgs() });
         Equal(list.Items.Count, 0); Equal(app.History.Entries.Count, 0);
     }
-    private static void UiDisplay(App app, MainWindow main, LookupWindow popup)
-    {
-        static double Scale(Window window) => ((FrameworkElement)window.FindName("Root")).LayoutTransform is System.Windows.Media.ScaleTransform t ? t.ScaleX : 1.0;
-        ((CheckBox)main.FindName("FollowWindowCheck")).IsChecked = false;
-        ((Slider)main.FindName("FontScaleSlider")).Value = 1.5;
-        Equal(app.Display, new DisplaySettings(1.5, false));
-        main.ApplyDisplay(); popup.ApplyDisplay(); // The test app does not own these windows, so it cannot refresh them itself.
-        Equal(((TextBlock)main.FindName("FontScaleLabel")).Text, "150%");
-        Equal(Scale(main), 1.5); Equal(Scale(popup), 1.5);
-        Equal(popup.Width, 645.0); Equal(popup.Height, 960.0);
-        RenderContent(main, 544, 660, "artifacts/display-settings-preview.png");
-        var reset = typeof(MainWindow).GetMethod("ResetDisplay_Click", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
-        reset.Invoke(main, new object[] { main, new RoutedEventArgs() });
-        Equal(app.Display, new DisplaySettings());
-        main.ApplyDisplay(); popup.ApplyDisplay();
-        Equal(Scale(main), 1.0); Equal(popup.Width, 430.0);
-        Assert(((CheckBox)main.FindName("FollowWindowCheck")).IsChecked == true);
-    }
 }

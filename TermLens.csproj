@@ -9,7 +9,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>app.ico</ApplicationIcon>
     <AssemblyName>TermLens</AssemblyName>
-    <Version>0.4.1</Version>
+    <Version>0.4.0</Version>
     <!-- WPF owns the UI and DPI manifest. WinForms is used only for the tray and monitor bounds. -->
     <NoWarn>$(NoWarn);WFAC010</NoWarn>
     <!-- This application has no transitive framework or package dependencies. -->
