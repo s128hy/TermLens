@@ -204,6 +204,8 @@ internal static partial class Program
         Test("界面：失焦不关闭、不取消查询，手动关闭仍有效", () => UiPersistent(app, popup, uiHandler));
         Test("界面：历史筛选、离线回看和清空", () => UiHistory(app, main, uiHandler));
         Test("界面：字体大小即时生效，卡片随字号与窗口缩放", () => UiDisplay(app, main, popup));
+        Test("外观：所有图标尺寸保留透明边距", IconMargins);
+        Test("外观：小窗口和大字号下查询按钮保持可见", () => UiCompactLayout(app, main));
         SynchronizationContext.SetSynchronizationContext(null);
     }
     private static void RenderContent(Window window, int width, int height, string path)

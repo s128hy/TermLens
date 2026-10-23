@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase
 $root = Split-Path -Parent $PSScriptRoot
 $resources = [Windows.Markup.XamlReader]::Parse([IO.File]::ReadAllText((Join-Path $root 'Branding.xaml')))
@@ -34,4 +34,4 @@ try {
  foreach($frame in $frames) { $writer.Write([byte[]]$frame.bytes) }
 } finally { $writer.Dispose(); $file.Dispose() }
 [IO.File]::WriteAllBytes((Join-Path $root 'artifacts\icon-preview.png'), $frames[$frames.Count-1].bytes)
-Write-Output 'Generated shared D icon: 16–256 px'
+Write-Output 'Generated shared blue icon with transparent safe margins: 16–256 px'

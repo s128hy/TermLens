@@ -3,78 +3,83 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  Title="术语解释" Style="{StaticResource {x:Type Window}}" Width="430" Height="640" MinWidth="320" MinHeight="400" WindowStyle="None" ResizeMode="CanResizeWithGrip"
  AllowsTransparency="True" Background="Transparent" Topmost="True" ShowInTaskbar="False">
- <Border Background="#FFFFFF" CornerRadius="3" BorderBrush="#E3E1DE" BorderThickness="1" Margin="4">
+ <Border Background="White" CornerRadius="18" BorderBrush="#D7DDE6" BorderThickness="1" Margin="5">
   <Grid x:Name="Root">
-   <Grid.RowDefinitions>
-    <RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/>
-   </Grid.RowDefinitions>
-   <Border Background="#FFFFFF" CornerRadius="3,3,0,0" Padding="18,12" MouseLeftButtonDown="Drag_Header">
+   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+   <Border Background="Transparent" Padding="18,13,14,8" MouseLeftButtonDown="Drag_Header">
     <DockPanel>
-     <Button Content="×" Style="{StaticResource Quiet}" FontSize="17" DockPanel.Dock="Right" Padding="7,3" Margin="0" Click="Close_Click" ToolTip="关闭（Esc）"/>
-     <StackPanel Orientation="Horizontal" IsHitTestVisible="False"><Image Source="{StaticResource BrandMark}" Width="20" Height="20" Margin="0,0,8,0"/><TextBlock Text="术语镜" FontSize="12" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/></StackPanel>
+     <Button Content="×" Style="{StaticResource Quiet}" FontSize="19" DockPanel.Dock="Right" Width="30" Height="30" Padding="0" Margin="0" Click="Close_Click" ToolTip="关闭（Esc）" AutomationProperties.Name="关闭解释"/>
+     <StackPanel Orientation="Horizontal" IsHitTestVisible="False" VerticalAlignment="Center">
+      <Image Source="{StaticResource BrandMark}" Width="27" Height="27" Margin="-3,0,6,0"/>
+      <TextBlock Text="术语镜" FontSize="12" FontWeight="Medium" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+     </StackPanel>
     </DockPanel>
    </Border>
-   <ScrollViewer x:Name="ContentScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto">
-    <StackPanel Margin="22,20">
-     <TextBlock x:Name="TitleText" FontSize="27" FontWeight="SemiBold"/>
-     <TextBlock x:Name="EnglishText" Foreground="{StaticResource Muted}" FontSize="13" Margin="0,6,0,18"/>
-     <StackPanel x:Name="LoadingPanel" Visibility="Collapsed" Margin="0,10,0,12">
-      <ProgressBar IsIndeterminate="True" Height="3" Foreground="{StaticResource Accent}" BorderThickness="0"/>
-      <TextBlock x:Name="LoadingText" Text="正在连接… 已等待 0 秒" Foreground="{StaticResource Muted}" Margin="0,12,0,6"/>
-      <Button Content="取消查询" Click="Cancel_Click" HorizontalAlignment="Left" Padding="10,6"/>
+   <ScrollViewer x:Name="ContentScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="24,16,24,20">
+     <TextBlock x:Name="TitleText" FontSize="28" FontWeight="SemiBold" LineHeight="36"/>
+     <TextBlock x:Name="EnglishText" Foreground="{StaticResource Muted}" FontSize="13" Margin="0,7,0,23"/>
+     <StackPanel x:Name="LoadingPanel" Visibility="Collapsed" Margin="0,8,0,16">
+      <ProgressBar IsIndeterminate="True" Height="3" Foreground="{StaticResource Accent}" BorderThickness="0" Background="{StaticResource Soft}"/>
+      <TextBlock x:Name="LoadingText" Text="正在连接… 已等待 0 秒" Foreground="{StaticResource Muted}" FontSize="12" Margin="0,14,0,8"/>
+      <Button Content="取消查询" Click="Cancel_Click" Style="{StaticResource Quiet}" HorizontalAlignment="Left" Padding="0,5"/>
      </StackPanel>
-     <TextBlock x:Name="MessageText" Visibility="Collapsed" LineHeight="26" Margin="0,4,0,14"/>
+     <TextBlock x:Name="MessageText" Visibility="Collapsed" LineHeight="27" Margin="0,0,0,16"/>
      <StackPanel x:Name="Sections">
-      <Border x:Name="MeaningPanel" Visibility="Collapsed" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,1" Padding="0,10" Margin="0,0,0,16">
+      <Border x:Name="MeaningPanel" Visibility="Collapsed" Background="{StaticResource Soft}" CornerRadius="12" Padding="13,11" Margin="0,0,0,22">
        <StackPanel>
-        <TextBlock Text="当前含义 · AI 判断" FontSize="11" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
-        <TextBlock x:Name="MeaningText" FontSize="12" LineHeight="21" Foreground="{StaticResource Accent}"/>
-        <TextBlock x:Name="AmbiguityText" FontSize="12" LineHeight="21" Foreground="#70706E" Margin="0,6,0,0"/>
+        <TextBlock Text="这里的含义 · AI 判断" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+        <TextBlock x:Name="MeaningText" FontSize="12" LineHeight="22" Foreground="{StaticResource Accent}"/>
+        <TextBlock x:Name="AmbiguityText" FontSize="11" LineHeight="20" Foreground="{StaticResource Muted}" Margin="0,6,0,0"/>
        </StackPanel>
       </Border>
-      <TextBlock Text="核心定义" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,7"/>
-      <TextBlock x:Name="DefinitionText" LineHeight="26" Margin="0,0,0,18"/>
-      <StackPanel x:Name="PrinciplePanel" Visibility="Collapsed" Margin="0,0,0,18">
-       <TextBlock Text="原理与步骤" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,7"/>
-       <TextBlock x:Name="PrincipleText" LineHeight="26"/>
+      <TextBlock Text="核心定义" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+      <TextBlock x:Name="DefinitionText" LineHeight="27" Margin="0,0,0,22"/>
+      <StackPanel x:Name="PrinciplePanel" Visibility="Collapsed" Margin="0,0,0,22">
+       <TextBlock Text="原理与步骤" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+       <TextBlock x:Name="PrincipleText" LineHeight="27"/>
       </StackPanel>
-      <Border BorderBrush="{StaticResource Accent}" BorderThickness="2,0,0,0" Padding="13,0,0,0" Margin="0,0,0,18">
+      <Border Background="#F3F5F9" CornerRadius="12" Padding="14" Margin="0,0,0,22">
        <StackPanel>
-        <TextBlock Text="打个比方" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,7"/>
+        <TextBlock Text="打个比方" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="Medium" Margin="0,0,0,7"/>
         <TextBlock x:Name="AnalogyText" LineHeight="26"/>
        </StackPanel>
       </Border>
-      <StackPanel x:Name="ExamplePanel" Visibility="Collapsed" Margin="0,0,0,18">
-       <TextBlock Text="具体例子" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,7"/>
-       <TextBlock x:Name="ExampleText" LineHeight="26"/>
+      <StackPanel x:Name="ExamplePanel" Visibility="Collapsed" Margin="0,0,0,22">
+       <TextBlock Text="具体例子" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+       <TextBlock x:Name="ExampleText" LineHeight="27"/>
       </StackPanel>
-      <TextBlock Text="实际用途" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,7"/>
-      <TextBlock x:Name="UsageText" LineHeight="26"/>
-      <StackPanel x:Name="PitfallsPanel" Visibility="Collapsed" Margin="0,18,0,0">
-       <TextBlock Text="常见误区与局限" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,7"/>
-       <TextBlock x:Name="PitfallsText" LineHeight="26"/>
+      <TextBlock Text="实际用途" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+      <TextBlock x:Name="UsageText" LineHeight="27"/>
+      <StackPanel x:Name="PitfallsPanel" Visibility="Collapsed" Margin="0,22,0,0">
+       <TextBlock Text="常见误区与局限" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,8"/>
+       <TextBlock x:Name="PitfallsText" LineHeight="27"/>
       </StackPanel>
      </StackPanel>
     </StackPanel>
    </ScrollViewer>
-   <Border Grid.Row="2" BorderBrush="#E3E1DE" BorderThickness="0,1,0,0" Padding="18,12">
+   <Border Grid.Row="2" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,0" Padding="20,13,20,15">
     <StackPanel>
-     <Expander x:Name="ContextExpander" Header="补充原句，确认这里的含义" Margin="0,0,0,12">
-      <StackPanel Margin="0,10,0,0">
+     <Expander x:Name="ContextExpander" Header="补充原句，理解更准确" FontSize="12" Foreground="{StaticResource Muted}" Margin="0,0,0,13">
+      <StackPanel Margin="0,12,0,0">
        <TextBox x:Name="ContextInput" MaxLength="3000" AcceptsReturn="True" TextWrapping="Wrap" Height="68" VerticalScrollBarVisibility="Auto" ToolTip="粘贴术语所在的句子；不会自动读取原文"/>
-       <TextBlock Text="仅发送你填写的文字；重新解释会再次调用 AI。" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,5,0,8"/>
-       <Button Content="结合上下文重新解释" Style="{StaticResource Primary}" Padding="12,7" Click="Context_Click" HorizontalAlignment="Left"/>
+       <TextBlock Text="仅发送你填写的内容；重新解释会再次调用 AI。" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,6,0,10"/>
+       <Button Content="结合上下文重新解释" Style="{StaticResource Primary}" Click="Context_Click" HorizontalAlignment="Left"/>
       </StackPanel>
      </Expander>
      <WrapPanel>
-      <Button x:Name="CopyButton" Content="复制解释" Padding="12,7" Click="Copy_Click"/>
-      <Button Style="{StaticResource Quiet}" FontSize="12" x:Name="RetryButton" Content="重新查询" Padding="12,7" Click="Retry_Click"/>
-      <Button Style="{StaticResource Quiet}" FontSize="12" x:Name="PlainButton" Content="普通查询" Padding="10,7" Click="Plain_Click" ToolTip="服务不支持流式输出时使用；会重新发送查询"/>
-      <Button Style="{StaticResource Quiet}" FontSize="12" Content="设置" Padding="12,7" Click="Settings_Click"/>
-      <Button Style="{StaticResource Quiet}" FontSize="12" Content="历史" Padding="12,7" Click="History_Click"/>
+      <Button x:Name="CopyButton" Content="复制解释" Style="{StaticResource Primary}" Padding="16,9" Click="Copy_Click"/>
+      <Button x:Name="RetryButton" Content="重新查询" Style="{StaticResource Quiet}" Padding="10,9" Click="Retry_Click"/>
+      <Button Content="历史" Style="{StaticResource Quiet}" Padding="10,9" Margin="0" Click="History_Click"/>
      </WrapPanel>
+     <Expander Header="更多选项" FontSize="11" Foreground="{StaticResource Muted}" Margin="0,10,0,0">
+      <WrapPanel Margin="0,7,0,0">
+       <Button x:Name="PlainButton" Content="普通查询" Style="{StaticResource Quiet}" FontSize="12" Padding="8,7" Click="Plain_Click" ToolTip="服务不支持流式输出时使用；会重新发送查询"/>
+       <Button Content="连接与设置" Style="{StaticResource Quiet}" FontSize="12" Padding="8,7" Click="Settings_Click"/>
+      </WrapPanel>
+     </Expander>
      <TextBlock x:Name="HistoryNotice" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,8,0,0"/>
-     <TextBlock Text="AI 生成，仅供理解参考 · 点击 × 或按 Esc 关闭" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,8,0,0"/>
+     <TextBlock Text="AI 生成，仅供参考 · 卡片保留至你手动关闭" Foreground="{StaticResource Muted}" FontSize="10" Margin="0,7,0,0"/>
     </StackPanel>
    </Border>
   </Grid>

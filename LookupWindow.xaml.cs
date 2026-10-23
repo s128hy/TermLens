@@ -43,7 +43,7 @@ public partial class LookupWindow : Window
         var version = ++generation;
         explanation = null;
         TitleText.Text = term.Length > 80 ? term[..80] + "…" : term;
-        EnglishText.Text = "计算机 · 入门解释";
+        EnglishText.Text = "正在准备解释";
         DefinitionText.Text = AnalogyText.Text = UsageText.Text = "";
         Sections.Visibility = Visibility.Collapsed;
         MessageText.Visibility = Visibility.Collapsed;

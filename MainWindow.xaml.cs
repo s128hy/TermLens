@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -59,6 +59,16 @@ public partial class MainWindow : Window
         showingDisplay = false;
         FontScaleLabel.Text = $"{display.FontScale * 100:0}%";
         DisplayScale.Apply(Root, display.ScaleFor(ActualWidth, ActualHeight, ReferenceWidth, ReferenceHeight));
+    }
+    private void LayoutDensity_Changed(object sender, SizeChangedEventArgs e)
+    {
+        if (QuerySheet == null || HeroHeading == null) return;
+        // Keep the actual input and primary action usable in a short window or at large type.
+        var compact = Root.ActualHeight > 0 && Root.ActualHeight < 390;
+        HeroHeading.Visibility = HeroSubtitle.Visibility = ReadingTip.Visibility = compact ? Visibility.Collapsed : Visibility.Visible;
+        QuerySheet.Padding = compact ? new Thickness(10) : new Thickness(22, 24, 22, 24);
+        QueryContent.Margin = compact ? new Thickness(0, 8, 0, 4) : new Thickness(0, 20, 0, 8);
+        ExamplesPanel.Visibility = Root.ActualHeight > 0 && Root.ActualHeight < 250 ? Visibility.Collapsed : Visibility.Visible;
     }
     private void UpdateDisplay(DisplaySettings display)
     {
